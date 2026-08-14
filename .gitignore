@@ -22,5 +22,8 @@ run
 
 .agents/
 .claude/
+.grok/
 
 skills-lock.json
+
+.scratch/
