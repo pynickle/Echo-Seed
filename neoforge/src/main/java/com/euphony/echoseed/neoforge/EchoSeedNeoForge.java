@@ -12,16 +12,18 @@ public final class EchoSeedNeoForge {
     public EchoSeedNeoForge(IEventBus modBus) {
         EchoNeoForgeRegistries.register(modBus);
         modBus.addListener(EchoSeedNeoForge::commonSetup);
-        modBus.addListener(EchoSeedNeoForge::addToNaturalBlocks);
+        modBus.addListener(EchoSeedNeoForge::addToCreativeTabs);
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(EchoSeed::init);
     }
 
-    private static void addToNaturalBlocks(BuildCreativeModeTabContentsEvent event) {
+    private static void addToCreativeTabs(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS) {
             event.accept(EchoNeoForgeRegistries.ECHO_SEED);
+        } else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(EchoNeoForgeRegistries.ECHO_FRUIT);
         }
     }
 }

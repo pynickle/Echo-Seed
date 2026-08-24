@@ -13,5 +13,7 @@ public final class EchoSeedFabric implements ModInitializer {
         EchoSeed.init();
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS)
             .register(output -> output.accept(EchoItems.ECHO_SEED));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS)
+            .register(output -> output.accept(EchoItems.ECHO_FRUIT));
     }
 }

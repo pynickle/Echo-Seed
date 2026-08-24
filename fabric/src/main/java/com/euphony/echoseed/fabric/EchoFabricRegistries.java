@@ -31,6 +31,11 @@ final class EchoFabricRegistries {
             properties -> new BlockItem(EchoBlocks.ECHO_CROP, properties),
             EchoItems.seedProperties()
         );
+        EchoItems.ECHO_FRUIT = registerItem(
+            EchoItems.ECHO_FRUIT_ID,
+            Item::new,
+            EchoItems.fruitProperties()
+        );
         EchoBlockEntityTypes.ECHO_CROP = registerBlockEntity(
             EchoBlocks.ECHO_CROP_ID,
             EchoCropBlockEntity::new,

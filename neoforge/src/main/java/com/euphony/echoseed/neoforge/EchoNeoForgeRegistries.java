@@ -44,6 +44,16 @@ final class EchoNeoForgeRegistries {
         EchoItems::seedProperties
     );
 
+    static final DeferredItem<Item> ECHO_FRUIT = ITEMS.registerItem(
+        EchoItems.ECHO_FRUIT_ID,
+        properties -> {
+            Item item = new Item(properties);
+            EchoItems.ECHO_FRUIT = item;
+            return item;
+        },
+        EchoItems::fruitProperties
+    );
+
     static final Supplier<BlockEntityType<EchoCropBlockEntity>> ECHO_CROP_ENTITY = BLOCK_ENTITY_TYPES.register(
         EchoBlocks.ECHO_CROP_ID,
         () -> {

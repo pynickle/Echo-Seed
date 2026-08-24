@@ -1,13 +1,20 @@
 package com.euphony.echoseed.block;
 
 import com.euphony.echoseed.EchoBlockEntityTypes;
+import com.euphony.echoseed.EchoItems;
 import com.euphony.echoseed.EchoTags;
+import com.euphony.echoseed.rules.CropLeaveResult;
 import com.euphony.echoseed.rules.EchoRules;
+import com.euphony.echoseed.rules.LeaveReason;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,9 +28,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
+
+import java.util.List;
+import java.util.random.RandomGenerator;
 
 public class EchoCropBlock extends VegetationBlock implements EntityBlock {
     public static final MapCodec<EchoCropBlock> CODEC = simpleCodec(EchoCropBlock::new);
@@ -88,8 +101,54 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
     }
 
     @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        CropLeaveResult result = leave(state, LeaveReason.PICK, level.getRandom());
+        if (result.drops().isEmpty()) {
+            return InteractionResult.PASS;
+        }
+        if (level instanceof ServerLevel serverLevel) {
+            for (ItemStack stack : stacks(result)) {
+                Block.popResource(serverLevel, pos, stack);
+            }
+            result.remainingAge().ifPresent(age -> {
+                BlockState picked = state.setValue(AGE, age);
+                serverLevel.setBlock(pos, picked, Block.UPDATE_CLIENTS);
+                serverLevel.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, picked));
+            });
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        return stacks(leave(state, LeaveReason.BREAK, params.getLevel().getRandom()));
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE, PRESENT);
+    }
+
+    private static CropLeaveResult leave(BlockState state, LeaveReason reason, RandomSource random) {
+        return EchoRules.defaults().leave(state.getValue(AGE), reason, rulesRandom(random));
+    }
+
+    private static RandomGenerator rulesRandom(RandomSource random) {
+        return new RandomGenerator() {
+            @Override
+            public long nextLong() {
+                return random.nextLong();
+            }
+
+            @Override
+            public int nextInt(int bound) {
+                return random.nextInt(bound);
+            }
+        };
+    }
+
+    private static List<ItemStack> stacks(CropLeaveResult result) {
+        return result.drops().stream().map(EchoItems::stack).toList();
     }
 
     @SuppressWarnings("unchecked")
