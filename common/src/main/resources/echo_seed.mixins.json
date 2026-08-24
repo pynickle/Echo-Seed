@@ -4,8 +4,11 @@
   "compatibilityLevel": "JAVA_25",
   "minVersion": "0.8",
   "client": [
+    "client.MinecraftMixin"
   ],
   "mixins": [
+    "PlayerListMixin",
+    "ServerPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

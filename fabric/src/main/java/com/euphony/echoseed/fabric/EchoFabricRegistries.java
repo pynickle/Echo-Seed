@@ -6,6 +6,7 @@ import com.euphony.echoseed.EchoItems;
 import com.euphony.echoseed.EchoSeed;
 import com.euphony.echoseed.block.EchoCropBlock;
 import com.euphony.echoseed.block.EchoCropBlockEntity;
+import com.euphony.echoseed.item.EchoFruitItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,7 +34,7 @@ final class EchoFabricRegistries {
         );
         EchoItems.ECHO_FRUIT = registerItem(
             EchoItems.ECHO_FRUIT_ID,
-            Item::new,
+            EchoFruitItem::new,
             EchoItems.fruitProperties()
         );
         EchoBlockEntityTypes.ECHO_CROP = registerBlockEntity(

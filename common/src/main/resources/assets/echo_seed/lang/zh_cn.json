@@ -1,5 +1,6 @@
 {
   "item.echo_seed.echo_seed": "回响种子",
   "item.echo_seed.echo_fruit": "回响果",
-  "block.echo_seed.echo_crop": "回响植株"
+  "block.echo_seed.echo_crop": "回响植株",
+  "echo_seed.mark.cooldown": "回响果仍在回响"
 }

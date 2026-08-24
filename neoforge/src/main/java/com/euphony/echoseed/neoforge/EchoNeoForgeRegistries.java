@@ -6,6 +6,7 @@ import com.euphony.echoseed.EchoItems;
 import com.euphony.echoseed.EchoSeed;
 import com.euphony.echoseed.block.EchoCropBlock;
 import com.euphony.echoseed.block.EchoCropBlockEntity;
+import com.euphony.echoseed.item.EchoFruitItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -47,7 +48,7 @@ final class EchoNeoForgeRegistries {
     static final DeferredItem<Item> ECHO_FRUIT = ITEMS.registerItem(
         EchoItems.ECHO_FRUIT_ID,
         properties -> {
-            Item item = new Item(properties);
+            Item item = new EchoFruitItem(properties);
             EchoItems.ECHO_FRUIT = item;
             return item;
         },

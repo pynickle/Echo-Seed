@@ -1,5 +1,6 @@
 {
   "item.echo_seed.echo_seed": "Echo Seed",
   "item.echo_seed.echo_fruit": "Echo Fruit",
-  "block.echo_seed.echo_crop": "Echo Crop"
+  "block.echo_seed.echo_crop": "Echo Crop",
+  "echo_seed.mark.cooldown": "Echo Fruit is still echoing"
 }

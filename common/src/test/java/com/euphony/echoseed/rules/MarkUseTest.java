@@ -135,4 +135,59 @@ class MarkUseTest {
 
         assertEquals(Optional.of(home), result.location());
     }
+
+    @Test
+    void elapsedMarkDurationExpiresTheLiveMark() {
+        MarkState marked = new MarkState(
+            Optional.of(new LiveMark(feet, EchoRules.DEFAULT_MARK_DURATION_MILLIS)),
+            0L
+        );
+
+        MarkState elapsed = marked.elapse(EchoRules.DEFAULT_MARK_DURATION_MILLIS);
+
+        assertFalse(elapsed.hasLiveMark());
+        assertEquals(0L, elapsed.cooldownRemainingMillis());
+    }
+
+    @Test
+    void elapsedTimeShorterThanDurationLeavesTheMarkLive() {
+        MarkState marked = new MarkState(Optional.of(new LiveMark(feet, 45_000L)), 0L);
+
+        MarkState elapsed = marked.elapse(1_000L);
+
+        assertTrue(elapsed.hasLiveMark());
+        assertEquals(44_000L, elapsed.live().orElseThrow().remainingMillis());
+        assertEquals(feet, elapsed.liveLocation().orElseThrow());
+    }
+
+    @Test
+    void elapsedCooldownRunsDownWithoutCreatingAMark() {
+        MarkState cooling = new MarkState(Optional.empty(), EchoRules.DEFAULT_COOLDOWN_MILLIS);
+
+        MarkState elapsed = cooling.elapse(3_000L);
+
+        assertFalse(elapsed.hasLiveMark());
+        assertEquals(5_000L, elapsed.cooldownRemainingMillis());
+    }
+
+    @Test
+    void elapsedTimeDoesNotGoBelowZero() {
+        MarkState cooling = new MarkState(Optional.of(new LiveMark(feet, 100L)), 50L);
+
+        MarkState elapsed = cooling.elapse(1_000L);
+
+        assertFalse(elapsed.hasLiveMark());
+        assertEquals(0L, elapsed.cooldownRemainingMillis());
+    }
+
+    @Test
+    void useAfterElapsedDurationCreatesANewMark() {
+        MarkState marked = new MarkState(Optional.of(new LiveMark(feet, 45_000L)), 0L);
+
+        MarkUseResult result = rules.useFruit(marked.elapse(45_000L), false, nether);
+
+        assertEquals(FruitAction.CREATE_MARK, result.action());
+        assertEquals(nether, result.state().live().orElseThrow().location());
+        assertFalse(result.consumesFruit());
+    }
 }
