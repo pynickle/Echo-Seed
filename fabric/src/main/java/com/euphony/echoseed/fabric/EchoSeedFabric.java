@@ -9,6 +9,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 public final class EchoSeedFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        EchoFabricRegistries.register();
         EchoSeed.init();
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS)
             .register(output -> output.accept(EchoItems.ECHO_SEED));

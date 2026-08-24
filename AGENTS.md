@@ -1,3 +1,7 @@
+## JDK
+
+Java 25. Path: `D:/Program Files/Eclipse Adoptium/graalvm-jdk-25.0.3+9.1` (`org.gradle.java.home` in `gradle.properties`).
+
 ## Agent skills
 
 ### Issue tracker
