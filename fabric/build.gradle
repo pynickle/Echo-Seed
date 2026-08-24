@@ -70,7 +70,7 @@ shadowJar {
 
     configurations = [project.configurations.shadowCommon]
     archiveClassifier = null
-    from rootProject.file("LICENSE.md")
+    from rootProject.file("LICENSE")
 }
 
 loom.injectAccessWidener(tasks.named('shadowJar'), commonAccessWidener)

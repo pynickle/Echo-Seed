@@ -1,35 +1,33 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-#issueTrackerURL = ""
-license = "Unlicense"
+#issueTrackerURL = "https://github.com/pynickle/Echo-Seed/issues"
+license = "MIT"
 
 [[mods]]
-modId = "example_mod"
+modId = "echo_seed"
 version = "${version}"
-displayName = "Example Mod"
-authors = "Author"
+displayName = "Echo Seed / 回响种子"
+authors = "ENC_Euphony"
 description = '''
-Mod Description
+A Presence-grown plant whose Echo Fruit marks a place and later returns you there.
 '''
-# logoFile = ""
 
 [[accessTransformers]]
 file="META-INF/accesstransformer.cfg"
 
-[[dependencies.example_mod]]
+[[dependencies.echo_seed]]
 modId = "neoforge"
 type = "required"
 versionRange = "[26.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.example_mod]]
+[[dependencies.echo_seed]]
 modId = "minecraft"
 type = "required"
 versionRange = "[26.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-
 [[mixins]]
-config = "example_mod.mixins.json"
+config = "echo_seed.mixins.json"

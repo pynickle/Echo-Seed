@@ -1,37 +1,33 @@
 {
   "schemaVersion": 1,
-  "id": "example_mod",
+  "id": "echo_seed",
   "version": "${version}",
-  "name": "Example Mod",
-  "description": "Mod Description",
+  "name": "Echo Seed / 回响种子",
+  "description": "A Presence-grown plant whose Echo Fruit marks a place and later returns you there.",
   "authors": [
-    "Author"
+    "ENC_Euphony"
   ],
   "contact": {
-    "homepage": ""
+    "homepage": "https://github.com/pynickle/Echo-Seed"
   },
-  "license": "unlicense",
-  "icon": "assets/example_mod/icon.png",
+  "license": "MIT",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.example.example_mod.fabric.ExampleModFabric"
+      "com.euphony.echoseed.fabric.EchoSeedFabric"
     ],
     "client": [
-      "com.example.example_mod.fabric.client.ExampleModFabricClient"
+      "com.euphony.echoseed.fabric.client.EchoSeedFabricClient"
     ]
   },
   "mixins": [
-    "example_mod.mixins.json"
+    "echo_seed.mixins.json"
   ],
-  "accessWidener": "example_mod.accesswidener",
+  "accessWidener": "echo_seed.accesswidener",
   "depends": {
     "fabricloader": ">=0.18",
     "minecraft": "~26.1",
     "java": ">=25",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

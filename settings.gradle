@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'example_mod'
+rootProject.name = 'echo_seed'
 
 include 'common'
 include 'fabric'

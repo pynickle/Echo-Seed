@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.example.example_mod.mixin",
+  "package": "com.euphony.echoseed.mixin",
   "compatibilityLevel": "JAVA_25",
   "minVersion": "0.8",
   "client": [
