@@ -1,0 +1,7 @@
+{
+  "values": {
+    "echo_seed:echo_seed": {
+      "chance": 0.3
+    }
+  }
+}

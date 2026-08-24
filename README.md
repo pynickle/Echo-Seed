@@ -36,6 +36,7 @@ This project keeps a single Access Widener in `common/src/main/resources/${mod_i
 ## Notes
 
 - Shared initialization starts in `common/src/main/java/com/euphony/echoseed/EchoSeed.java`
+- Echo Seed item, Echo Crop block, recipe, and Plantable Soil tag live in `common/`
 - Growth, Mark, and drop rules live in `common/src/main/java/com/euphony/echoseed/rules/`
 - Fabric metadata lives in `fabric/src/main/resources/fabric.mod.json`
 - NeoForge metadata lives in `neoforge/src/main/resources/META-INF/neoforge.mods.toml`

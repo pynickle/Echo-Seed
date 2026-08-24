@@ -106,6 +106,15 @@ class GrowthTest {
         assertEquals(0L, result.state().presenceValueMillis());
     }
 
+    @Test
+    void echoCropAtStageZeroDoesNotAdvanceFromTimeAlone() {
+        GrowthResult result = rules.grow(GrowthState.planted(), false, seconds(3600));
+
+        assertEquals(0, result.state().age());
+        assertEquals(0L, result.state().presenceValueMillis());
+        assertFalse(result.stageAdvanced());
+    }
+
     private static long seconds(long count) {
         return count * 1000L;
     }

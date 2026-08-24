@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "#c:seeds",
+    "minecraft:glowstone_dust"
+  ],
+  "result": {
+    "id": "echo_seed:echo_seed"
+  }
+}

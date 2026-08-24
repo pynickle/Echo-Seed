@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "echo_seed:block/echo_crop_stage3"
+  }
+}
