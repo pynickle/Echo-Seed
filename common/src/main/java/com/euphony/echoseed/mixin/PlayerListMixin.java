@@ -1,5 +1,6 @@
 package com.euphony.echoseed.mixin;
 
+import com.euphony.echoseed.config.EchoConfigs;
 import com.euphony.echoseed.mark.EchoMarks;
 import net.minecraft.network.Connection;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,6 +16,7 @@ public abstract class PlayerListMixin {
     @Inject(method = "placeNewPlayer", at = @At("TAIL"))
     private void echoSeed$syncMark(Connection connection, ServerPlayer player, CommonListenerCookie cookie, CallbackInfo ci) {
         EchoMarks.sync(player);
+        EchoConfigs.sync(player);
     }
 
     @Inject(method = "remove", at = @At("TAIL"))

@@ -2,5 +2,15 @@
   "item.echo_seed.echo_seed": "Echo Seed",
   "item.echo_seed.echo_fruit": "Echo Fruit",
   "block.echo_seed.echo_crop": "Echo Crop",
-  "echo_seed.mark.cooldown": "Echo Fruit is still echoing"
+  "echo_seed.mark.cooldown": "Echo Fruit is still echoing",
+  "echo_seed.config.title": "Echo Seed",
+  "echo_seed.config.category.gameplay": "Gameplay",
+  "echo_seed.config.growth_speed": "Growth speed",
+  "echo_seed.config.growth_speed.desc": "Multiplier on Presence fill. 1.0 is about 120 seconds per Growth Stage.",
+  "echo_seed.config.mark_duration_seconds": "Mark duration (seconds)",
+  "echo_seed.config.mark_duration_seconds.desc": "How long a live Mark lasts in server time.",
+  "echo_seed.config.cooldown_seconds": "Teleport cooldown (seconds)",
+  "echo_seed.config.cooldown_seconds.desc": "Wait after a successful teleport before another Echo Fruit use.",
+  "echo_seed.config.presence_range": "Presence Range",
+  "echo_seed.config.presence_range.desc": "Chebyshev extent of the Presence cube. 4 is a 9×9×9 cube."
 }

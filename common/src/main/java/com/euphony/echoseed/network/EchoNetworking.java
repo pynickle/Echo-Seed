@@ -1,5 +1,6 @@
 package com.euphony.echoseed.network;
 
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class EchoNetworking {
@@ -9,12 +10,12 @@ public final class EchoNetworking {
     private EchoNetworking() {
     }
 
-    public static void send(ServerPlayer player, MarkSyncPayload payload) {
+    public static void send(ServerPlayer player, CustomPacketPayload payload) {
         sender.send(player, payload);
     }
 
     @FunctionalInterface
     public interface Sender {
-        void send(ServerPlayer player, MarkSyncPayload payload);
+        void send(ServerPlayer player, CustomPacketPayload payload);
     }
 }

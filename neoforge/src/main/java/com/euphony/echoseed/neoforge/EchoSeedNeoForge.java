@@ -1,20 +1,37 @@
 package com.euphony.echoseed.neoforge;
 
+import com.euphony.echoseed.EchoPlatform;
 import com.euphony.echoseed.EchoSeed;
+import com.euphony.echoseed.network.ConfigSyncPayload;
 import com.euphony.echoseed.network.EchoNetworking;
 import com.euphony.echoseed.network.MarkSyncPayload;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import java.nio.file.Path;
+
 @Mod(EchoSeed.MOD_ID)
 public final class EchoSeedNeoForge {
     public EchoSeedNeoForge(IEventBus modBus) {
+        EchoPlatform.helper = new EchoPlatform.Helper() {
+            @Override
+            public boolean isModLoaded(String id) {
+                return ModList.get().isLoaded(id);
+            }
+
+            @Override
+            public Path configDir() {
+                return FMLPaths.CONFIGDIR.get();
+            }
+        };
         EchoNeoForgeRegistries.register(modBus);
         EchoNetworking.sender = (player, payload) -> PacketDistributor.sendToPlayer(player, payload);
         modBus.addListener(EchoSeedNeoForge::commonSetup);
@@ -37,5 +54,6 @@ public final class EchoSeedNeoForge {
     private static void registerPayloads(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("1");
         registrar.playToClient(MarkSyncPayload.TYPE, MarkSyncPayload.STREAM_CODEC);
+        registrar.playToClient(ConfigSyncPayload.TYPE, ConfigSyncPayload.STREAM_CODEC);
     }
 }

@@ -1,8 +1,8 @@
 package com.euphony.echoseed.item;
 
+import com.euphony.echoseed.config.EchoConfigs;
 import com.euphony.echoseed.mark.EchoMarkTeleporter;
 import com.euphony.echoseed.mark.EchoMarks;
-import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.FruitAction;
 import com.euphony.echoseed.rules.MarkLocation;
 import com.euphony.echoseed.rules.MarkUseResult;
@@ -34,7 +34,7 @@ public class EchoFruitItem extends Item {
             player.getY(),
             player.getZ()
         );
-        MarkUseResult result = EchoRules.defaults().useFruit(EchoMarks.get(serverPlayer), player.isShiftKeyDown(), here);
+        MarkUseResult result = EchoConfigs.rules().useFruit(EchoMarks.get(serverPlayer), player.isShiftKeyDown(), here);
         if (result.action() == FruitAction.TELEPORT) {
             if (result.location().isEmpty() || !EchoMarkTeleporter.teleport(serverPlayer, result.location().get())) {
                 return InteractionResult.FAIL;

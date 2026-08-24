@@ -1,5 +1,6 @@
 package com.euphony.echoseed.client;
 
+import com.euphony.echoseed.config.EchoConfigs;
 import com.euphony.echoseed.network.MarkSyncPayload;
 import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.LiveMark;
@@ -55,7 +56,7 @@ public final class EchoMarkClient {
         if (!location.dimension().equals(level.dimension().identifier().toString())) {
             return;
         }
-        float fade = (float) remainingMillis / (float) EchoRules.DEFAULT_MARK_DURATION_MILLIS;
+        float fade = (float) remainingMillis / (float) Math.max(1L, EchoConfigs.rules().markDurationMillis());
         int rgb = DustColorTransitionOptions.SCULK_PARTICLE_COLOR;
         int pillarFill = ARGB.color((int) (90 * fade), rgb);
         int pillarStroke = ARGB.color((int) (140 * fade), rgb);

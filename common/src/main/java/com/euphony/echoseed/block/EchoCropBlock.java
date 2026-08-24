@@ -3,6 +3,7 @@ package com.euphony.echoseed.block;
 import com.euphony.echoseed.EchoBlockEntityTypes;
 import com.euphony.echoseed.EchoItems;
 import com.euphony.echoseed.EchoTags;
+import com.euphony.echoseed.config.EchoConfigs;
 import com.euphony.echoseed.rules.CropLeaveResult;
 import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.LeaveReason;
@@ -130,7 +131,7 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
     }
 
     private static CropLeaveResult leave(BlockState state, LeaveReason reason, RandomSource random) {
-        return EchoRules.defaults().leave(state.getValue(AGE), reason, rulesRandom(random));
+        return EchoConfigs.rules().leave(state.getValue(AGE), reason, rulesRandom(random));
     }
 
     private static RandomGenerator rulesRandom(RandomSource random) {

@@ -1,6 +1,7 @@
 package com.euphony.echoseed.block;
 
 import com.euphony.echoseed.EchoBlockEntityTypes;
+import com.euphony.echoseed.config.EchoConfigs;
 import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.GrowthResult;
 import com.euphony.echoseed.rules.GrowthState;
@@ -31,7 +32,7 @@ public class EchoCropBlockEntity extends BlockEntity {
         }
         boolean present = hasPresentPlayer(serverLevel, pos);
         int age = state.getValue(EchoCropBlock.AGE);
-        GrowthResult result = EchoRules.defaults().grow(
+        GrowthResult result = EchoConfigs.rules().grow(
             new GrowthState(age, entity.presenceValueMillis),
             present,
             EchoRules.MILLIS_PER_GAME_TICK
@@ -67,7 +68,7 @@ public class EchoCropBlockEntity extends BlockEntity {
                     player.getBlockX(),
                     player.getBlockY(),
                     player.getBlockZ(),
-                    EchoRules.DEFAULT_PRESENCE_RANGE
+                    EchoConfigs.rules().presenceRange()
                 )) {
                 return true;
             }

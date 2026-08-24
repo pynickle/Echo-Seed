@@ -40,6 +40,9 @@ dependencies {
 
     api "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
+    compileOnly "dev.isxander:yet-another-config-lib:${rootProject.yacl_version_fabric}"
+    compileOnly "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
+
     common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }

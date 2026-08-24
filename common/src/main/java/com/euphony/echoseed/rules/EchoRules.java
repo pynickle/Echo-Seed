@@ -23,8 +23,13 @@ public final class EchoRules {
     private final long stageDurationMillis;
     private final long markDurationMillis;
     private final long cooldownMillis;
+    private final int presenceRange;
 
     public EchoRules(long stageDurationMillis, long markDurationMillis, long cooldownMillis) {
+        this(stageDurationMillis, markDurationMillis, cooldownMillis, DEFAULT_PRESENCE_RANGE);
+    }
+
+    public EchoRules(long stageDurationMillis, long markDurationMillis, long cooldownMillis, int presenceRange) {
         if (stageDurationMillis <= 0L) {
             throw new IllegalArgumentException("stageDurationMillis must be positive");
         }
@@ -34,17 +39,46 @@ public final class EchoRules {
         if (cooldownMillis < 0L) {
             throw new IllegalArgumentException("cooldownMillis must not be negative");
         }
+        if (presenceRange < 0) {
+            throw new IllegalArgumentException("presenceRange must not be negative");
+        }
         this.stageDurationMillis = stageDurationMillis;
         this.markDurationMillis = markDurationMillis;
         this.cooldownMillis = cooldownMillis;
+        this.presenceRange = presenceRange;
     }
 
     public static EchoRules defaults() {
+        return from(EchoConfig.DEFAULTS);
+    }
+
+    public static EchoRules from(EchoConfig config) {
         return new EchoRules(
-            DEFAULT_STAGE_DURATION_MILLIS,
-            DEFAULT_MARK_DURATION_MILLIS,
-            DEFAULT_COOLDOWN_MILLIS
+            config.stageDurationMillis(),
+            config.markDurationMillis(),
+            config.cooldownMillis(),
+            config.presenceRange()
         );
+    }
+
+    public long stageDurationMillis() {
+        return stageDurationMillis;
+    }
+
+    public long markDurationMillis() {
+        return markDurationMillis;
+    }
+
+    public long cooldownMillis() {
+        return cooldownMillis;
+    }
+
+    public int presenceRange() {
+        return presenceRange;
+    }
+
+    public boolean anyonePresent(int cropX, int cropY, int cropZ, Iterable<PresenceCandidate> candidates) {
+        return anyonePresent(cropX, cropY, cropZ, presenceRange, candidates);
     }
 
     public static boolean isInsidePresenceRange(
