@@ -11,17 +11,17 @@ import java.util.Optional;
 
 public record MarkSyncPayload(Optional<LiveMark> mark) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<MarkSyncPayload> TYPE =
-        new CustomPacketPayload.Type<>(EchoSeed.id("mark_sync"));
+            new CustomPacketPayload.Type<>(EchoSeed.id("mark_sync"));
     public static final StreamCodec<FriendlyByteBuf, MarkSyncPayload> STREAM_CODEC =
-        CustomPacketPayload.codec(MarkSyncPayload::write, MarkSyncPayload::read);
+            CustomPacketPayload.codec(MarkSyncPayload::write, MarkSyncPayload::read);
 
     private static MarkSyncPayload read(FriendlyByteBuf input) {
         if (!input.readBoolean()) {
             return new MarkSyncPayload(Optional.empty());
         }
         return new MarkSyncPayload(Optional.of(new LiveMark(
-            new MarkLocation(input.readUtf(), input.readDouble(), input.readDouble(), input.readDouble()),
-            input.readVarLong()
+                new MarkLocation(input.readUtf(), input.readDouble(), input.readDouble(), input.readDouble()),
+                input.readVarLong()
         )));
     }
 

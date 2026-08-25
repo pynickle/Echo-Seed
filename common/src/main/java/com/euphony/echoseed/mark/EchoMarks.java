@@ -95,13 +95,13 @@ public final class EchoMarks {
                 return Optional.empty();
             }
             return Optional.of(new LiveMark(
-                new MarkLocation(
-                    dimension.get(),
-                    mark.getDoubleOr(X_KEY, 0.0),
-                    mark.getDoubleOr(Y_KEY, 0.0),
-                    mark.getDoubleOr(Z_KEY, 0.0)
-                ),
-                remaining.get()
+                    new MarkLocation(
+                            dimension.get(),
+                            mark.getDoubleOr(X_KEY, 0.0),
+                            mark.getDoubleOr(Y_KEY, 0.0),
+                            mark.getDoubleOr(Z_KEY, 0.0)
+                    ),
+                    remaining.get()
             ));
         });
         long cooldown = input.getLongOr(COOLDOWN_KEY, 0L);

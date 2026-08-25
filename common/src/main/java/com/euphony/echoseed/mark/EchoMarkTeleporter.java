@@ -23,7 +23,7 @@ import java.util.Set;
 
 public final class EchoMarkTeleporter {
     private static final DustParticleOptions SCULK_DUST =
-        new DustParticleOptions(DustColorTransitionOptions.SCULK_PARTICLE_COLOR, 1.0F);
+            new DustParticleOptions(DustColorTransitionOptions.SCULK_PARTICLE_COLOR, 1.0F);
 
     private EchoMarkTeleporter() {
     }
@@ -47,13 +47,13 @@ public final class EchoMarkTeleporter {
             player.stopRiding();
         }
         ServerPlayer teleported = player.teleport(new TeleportTransition(
-            target,
-            to,
-            Vec3.ZERO,
-            player.getYRot(),
-            player.getXRot(),
-            Set.<Relative>of(),
-            TeleportTransition.DO_NOTHING
+                target,
+                to,
+                Vec3.ZERO,
+                player.getYRot(),
+                player.getXRot(),
+                Set.of(),
+                TeleportTransition.DO_NOTHING
         ));
         if (teleported == null) {
             return false;

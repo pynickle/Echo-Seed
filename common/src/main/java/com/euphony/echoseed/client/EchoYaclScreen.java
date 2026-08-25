@@ -27,72 +27,72 @@ public final class EchoYaclScreen {
         Draft draft = Draft.from(EchoConfigs.active());
         boolean editable = localEditsApply();
         return YetAnotherConfigLib.createBuilder()
-            .title(Component.translatable("echo_seed.config.title"))
-            .category(ConfigCategory.createBuilder()
-                .name(Component.translatable("echo_seed.config.category.gameplay"))
-                .option(doubleOption(
-                    "growth_speed",
-                    EchoConfig.DEFAULTS.growthSpeed(),
-                    () -> draft.growthSpeed,
-                    value -> draft.growthSpeed = value,
-                    editable
-                ))
-                .option(doubleOption(
-                    "mark_duration_seconds",
-                    EchoConfig.DEFAULTS.markDurationSeconds(),
-                    () -> draft.markDurationSeconds,
-                    value -> draft.markDurationSeconds = value,
-                    editable
-                ))
-                .option(doubleOption(
-                    "cooldown_seconds",
-                    EchoConfig.DEFAULTS.cooldownSeconds(),
-                    () -> draft.cooldownSeconds,
-                    value -> draft.cooldownSeconds = value,
-                    editable
-                ))
-                .option(Option.<Integer>createBuilder()
-                    .name(Component.translatable("echo_seed.config.presence_range"))
-                    .description(OptionDescription.of(Component.translatable("echo_seed.config.presence_range.desc")))
-                    .binding(
-                        EchoConfig.DEFAULTS.presenceRange(),
-                        () -> draft.presenceRange,
-                        value -> draft.presenceRange = value
-                    )
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .available(editable)
-                    .build())
-                .option(Option.<Boolean>createBuilder()
-                    .name(Component.translatable("echo_seed.config.show_mark_duration"))
-                    .description(OptionDescription.of(Component.translatable("echo_seed.config.show_mark_duration.desc")))
-                    .binding(
-                        EchoConfig.DEFAULTS.showMarkDuration(),
-                        () -> draft.showMarkDuration,
-                        value -> draft.showMarkDuration = value
-                    )
-                    .controller(BooleanControllerBuilder::create)
-                    .available(editable)
-                    .build())
-                .build())
-            .save(() -> save(draft, editable))
-            .build()
-            .generateScreen(parent);
+                .title(Component.translatable("echo_seed.config.title"))
+                .category(ConfigCategory.createBuilder()
+                        .name(Component.translatable("echo_seed.config.category.gameplay"))
+                        .option(doubleOption(
+                                "growth_speed",
+                                EchoConfig.DEFAULTS.growthSpeed(),
+                                () -> draft.growthSpeed,
+                                value -> draft.growthSpeed = value,
+                                editable
+                        ))
+                        .option(doubleOption(
+                                "mark_duration_seconds",
+                                EchoConfig.DEFAULTS.markDurationSeconds(),
+                                () -> draft.markDurationSeconds,
+                                value -> draft.markDurationSeconds = value,
+                                editable
+                        ))
+                        .option(doubleOption(
+                                "cooldown_seconds",
+                                EchoConfig.DEFAULTS.cooldownSeconds(),
+                                () -> draft.cooldownSeconds,
+                                value -> draft.cooldownSeconds = value,
+                                editable
+                        ))
+                        .option(Option.<Integer>createBuilder()
+                                .name(Component.translatable("echo_seed.config.presence_range"))
+                                .description(OptionDescription.of(Component.translatable("echo_seed.config.presence_range.desc")))
+                                .binding(
+                                        EchoConfig.DEFAULTS.presenceRange(),
+                                        () -> draft.presenceRange,
+                                        value -> draft.presenceRange = value
+                                )
+                                .controller(IntegerFieldControllerBuilder::create)
+                                .available(editable)
+                                .build())
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Component.translatable("echo_seed.config.show_mark_duration"))
+                                .description(OptionDescription.of(Component.translatable("echo_seed.config.show_mark_duration.desc")))
+                                .binding(
+                                        EchoConfig.DEFAULTS.showMarkDuration(),
+                                        () -> draft.showMarkDuration,
+                                        value -> draft.showMarkDuration = value
+                                )
+                                .controller(BooleanControllerBuilder::create)
+                                .available(editable)
+                                .build())
+                        .build())
+                .save(() -> save(draft, editable))
+                .build()
+                .generateScreen(parent);
     }
 
     private static Option<Double> doubleOption(
-        String key,
-        double defaultValue,
-        Supplier<Double> getter,
-        Consumer<Double> setter,
-        boolean editable
+            String key,
+            double defaultValue,
+            Supplier<Double> getter,
+            Consumer<Double> setter,
+            boolean editable
     ) {
         return Option.<Double>createBuilder()
-            .name(Component.translatable("echo_seed.config." + key))
-            .description(OptionDescription.of(Component.translatable("echo_seed.config." + key + ".desc")))
-            .binding(defaultValue, getter, setter)
-            .controller(DoubleFieldControllerBuilder::create)
-            .available(editable)
-            .build();
+                .name(Component.translatable("echo_seed.config." + key))
+                .description(OptionDescription.of(Component.translatable("echo_seed.config." + key + ".desc")))
+                .binding(defaultValue, getter, setter)
+                .controller(DoubleFieldControllerBuilder::create)
+                .available(editable)
+                .build();
     }
 
     private static void save(Draft draft, boolean editable) {
@@ -100,11 +100,11 @@ public final class EchoYaclScreen {
             return;
         }
         EchoConfigs.apply(EchoConfig.sanitize(
-            draft.growthSpeed,
-            draft.markDurationSeconds,
-            draft.cooldownSeconds,
-            draft.presenceRange,
-            draft.showMarkDuration
+                draft.growthSpeed,
+                draft.markDurationSeconds,
+                draft.cooldownSeconds,
+                draft.presenceRange,
+                draft.showMarkDuration
         ));
         EchoConfigs.save();
         Minecraft minecraft = Minecraft.getInstance();

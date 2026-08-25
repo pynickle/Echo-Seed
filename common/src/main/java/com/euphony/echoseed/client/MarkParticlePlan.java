@@ -15,27 +15,27 @@ public final class MarkParticlePlan {
     }
 
     public record Mote(
-        double x,
-        double y,
-        double z,
-        int color,
-        float scale,
-        double vx,
-        double vy,
-        double vz
+            double x,
+            double y,
+            double z,
+            int color,
+            float scale,
+            double vx,
+            double vy,
+            double vz
     ) {
     }
 
     public static List<Mote> motesForTick(
-        boolean live,
-        long remainingMillis,
-        long durationMillis,
-        String markDimension,
-        String currentDimension,
-        double x,
-        double y,
-        double z,
-        RandomGenerator random
+            boolean live,
+            long remainingMillis,
+            long durationMillis,
+            String markDimension,
+            String currentDimension,
+            double x,
+            double y,
+            double z,
+            RandomGenerator random
     ) {
         if (!live || remainingMillis <= 0L || !markDimension.equals(currentDimension)) {
             return List.of();
@@ -56,14 +56,14 @@ public final class MarkParticlePlan {
         double theta = random.nextDouble() * Math.PI * 2.0;
         double radial = RADIUS * Math.sqrt(random.nextDouble());
         return new Mote(
-            x + Math.cos(theta) * radial,
-            y + random.nextDouble() * HEIGHT,
-            z + Math.sin(theta) * radial,
-            COLOR,
-            SCALE,
-            (random.nextDouble() - 0.5) * 0.04,
-            RISE + random.nextDouble() * 0.05,
-            (random.nextDouble() - 0.5) * 0.04
+                x + Math.cos(theta) * radial,
+                y + random.nextDouble() * HEIGHT,
+                z + Math.sin(theta) * radial,
+                COLOR,
+                SCALE,
+                (random.nextDouble() - 0.5) * 0.04,
+                RISE + random.nextDouble() * 0.05,
+                (random.nextDouble() - 0.5) * 0.04
         );
     }
 }

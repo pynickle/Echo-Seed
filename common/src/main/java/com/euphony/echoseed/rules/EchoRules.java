@@ -9,7 +9,7 @@ import java.util.random.RandomGenerator;
  * Pure Echo rules: Growth Stages and Presence Value, Echo Fruit Mark use, and crop leave drops.
  * No Minecraft types in this API.
  */
-public final class EchoRules {
+public record EchoRules(long stageDurationMillis, long markDurationMillis, long cooldownMillis, int presenceRange) {
     public static final long DEFAULT_STAGE_DURATION_MILLIS = 120_000L;
     public static final long DEFAULT_MARK_DURATION_MILLIS = 45_000L;
     public static final long DEFAULT_COOLDOWN_MILLIS = 8_000L;
@@ -20,16 +20,11 @@ public final class EchoRules {
     public static final int MIN_FRUIT = 2;
     public static final int MAX_FRUIT = 4;
 
-    private final long stageDurationMillis;
-    private final long markDurationMillis;
-    private final long cooldownMillis;
-    private final int presenceRange;
-
     public EchoRules(long stageDurationMillis, long markDurationMillis, long cooldownMillis) {
         this(stageDurationMillis, markDurationMillis, cooldownMillis, DEFAULT_PRESENCE_RANGE);
     }
 
-    public EchoRules(long stageDurationMillis, long markDurationMillis, long cooldownMillis, int presenceRange) {
+    public EchoRules {
         if (stageDurationMillis <= 0L) {
             throw new IllegalArgumentException("stageDurationMillis must be positive");
         }
@@ -42,10 +37,6 @@ public final class EchoRules {
         if (presenceRange < 0) {
             throw new IllegalArgumentException("presenceRange must not be negative");
         }
-        this.stageDurationMillis = stageDurationMillis;
-        this.markDurationMillis = markDurationMillis;
-        this.cooldownMillis = cooldownMillis;
-        this.presenceRange = presenceRange;
     }
 
     public static EchoRules defaults() {
@@ -54,27 +45,11 @@ public final class EchoRules {
 
     public static EchoRules from(EchoConfig config) {
         return new EchoRules(
-            config.stageDurationMillis(),
-            config.markDurationMillis(),
-            config.cooldownMillis(),
-            config.presenceRange()
+                config.stageDurationMillis(),
+                config.markDurationMillis(),
+                config.cooldownMillis(),
+                config.presenceRange()
         );
-    }
-
-    public long stageDurationMillis() {
-        return stageDurationMillis;
-    }
-
-    public long markDurationMillis() {
-        return markDurationMillis;
-    }
-
-    public long cooldownMillis() {
-        return cooldownMillis;
-    }
-
-    public int presenceRange() {
-        return presenceRange;
     }
 
     public boolean anyonePresent(int cropX, int cropY, int cropZ, Iterable<PresenceCandidate> candidates) {
@@ -82,13 +57,13 @@ public final class EchoRules {
     }
 
     public static boolean isInsidePresenceRange(
-        int cropX,
-        int cropY,
-        int cropZ,
-        int playerX,
-        int playerY,
-        int playerZ,
-        int range
+            int cropX,
+            int cropY,
+            int cropZ,
+            int playerX,
+            int playerY,
+            int playerZ,
+            int range
     ) {
         int dx = Math.abs(playerX - cropX);
         int dy = Math.abs(playerY - cropY);
@@ -103,7 +78,7 @@ public final class EchoRules {
     public static boolean anyonePresent(int cropX, int cropY, int cropZ, int range, Iterable<PresenceCandidate> candidates) {
         for (PresenceCandidate candidate : candidates) {
             if (isEligiblePresent(candidate.living(), candidate.spectator(), candidate.realConnectedPlayer())
-                && isInsidePresenceRange(
+                    && isInsidePresenceRange(
                     cropX,
                     cropY,
                     cropZ,
@@ -111,7 +86,7 @@ public final class EchoRules {
                     candidate.blockY(),
                     candidate.blockZ(),
                     range
-                )) {
+            )) {
                 return true;
             }
         }
@@ -151,22 +126,22 @@ public final class EchoRules {
         if (state.hasLiveMark()) {
             if (sneaking) {
                 return new MarkUseResult(
-                    FruitAction.DISMISS_MARK,
-                    new MarkState(Optional.empty(), state.cooldownRemainingMillis()),
-                    Optional.empty()
+                        FruitAction.DISMISS_MARK,
+                        new MarkState(Optional.empty(), state.cooldownRemainingMillis()),
+                        Optional.empty()
                 );
             }
             return new MarkUseResult(
-                FruitAction.TELEPORT,
-                new MarkState(Optional.empty(), cooldownMillis),
-                state.liveLocation()
+                    FruitAction.TELEPORT,
+                    new MarkState(Optional.empty(), cooldownMillis),
+                    state.liveLocation()
             );
         }
         LiveMark created = new LiveMark(here, markDurationMillis);
         return new MarkUseResult(
-            FruitAction.CREATE_MARK,
-            new MarkState(Optional.of(created), state.cooldownRemainingMillis()),
-            Optional.of(here)
+                FruitAction.CREATE_MARK,
+                new MarkState(Optional.of(created), state.cooldownRemainingMillis()),
+                Optional.of(here)
         );
     }
 
@@ -176,19 +151,19 @@ public final class EchoRules {
                 return new CropLeaveResult(List.of(), OptionalInt.of(age));
             }
             return new CropLeaveResult(
-                List.of(echoFruit(random)),
-                OptionalInt.of(AGE_AFTER_PICK)
+                    List.of(echoFruit(random)),
+                    OptionalInt.of(AGE_AFTER_PICK)
             );
         }
         if (age >= MATURE_AGE) {
             return new CropLeaveResult(
-                List.of(echoFruit(random), new ItemDrop(EchoItem.ECHO_SEED, 1)),
-                OptionalInt.empty()
+                    List.of(echoFruit(random), new ItemDrop(EchoItem.ECHO_SEED, 1)),
+                    OptionalInt.empty()
             );
         }
         return new CropLeaveResult(
-            List.of(new ItemDrop(EchoItem.ECHO_SEED, 1)),
-            OptionalInt.empty()
+                List.of(new ItemDrop(EchoItem.ECHO_SEED, 1)),
+                OptionalInt.empty()
         );
     }
 

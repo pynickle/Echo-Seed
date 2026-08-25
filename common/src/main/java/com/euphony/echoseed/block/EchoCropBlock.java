@@ -44,10 +44,10 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
     public static final BooleanProperty PRESENT = BooleanProperty.create("present");
 
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
-        Block.box(2.0, 0.0, 2.0, 14.0, 4.0, 14.0),
-        Block.box(2.0, 0.0, 2.0, 14.0, 8.0, 14.0),
-        Block.box(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
-        Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)
+            Block.box(2.0, 0.0, 2.0, 14.0, 4.0, 14.0),
+            Block.box(2.0, 0.0, 2.0, 14.0, 8.0, 14.0),
+            Block.box(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
+            Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)
     };
     private static final int PRESENCE_PARTICLE_COLOR = 0x009295;
 
@@ -86,13 +86,13 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
         if (state.getValue(PRESENT) && random.nextInt(10) == 0) {
             double height = 0.2 + state.getValue(AGE) * 0.35 + random.nextDouble() * 0.4;
             level.addParticle(
-                new DustParticleOptions(PRESENCE_PARTICLE_COLOR, 1.0F),
-                pos.getX() + 0.2 + random.nextDouble() * 0.6,
-                pos.getY() + height,
-                pos.getZ() + 0.2 + random.nextDouble() * 0.6,
-                0.0,
-                0.0,
-                0.0
+                    new DustParticleOptions(PRESENCE_PARTICLE_COLOR, 1.0F),
+                    pos.getX() + 0.2 + random.nextDouble() * 0.6,
+                    pos.getY() + height,
+                    pos.getZ() + 0.2 + random.nextDouble() * 0.6,
+                    0.0,
+                    0.0,
+                    0.0
             );
         }
     }
@@ -155,9 +155,9 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
 
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
-        BlockEntityType<A> actual,
-        BlockEntityType<E> expected,
-        BlockEntityTicker<? super E> ticker
+            BlockEntityType<A> actual,
+            BlockEntityType<E> expected,
+            BlockEntityTicker<? super E> ticker
     ) {
         return expected == actual ? (BlockEntityTicker<A>) ticker : null;
     }

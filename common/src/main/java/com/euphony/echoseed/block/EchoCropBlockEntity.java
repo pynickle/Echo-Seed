@@ -33,9 +33,9 @@ public class EchoCropBlockEntity extends BlockEntity {
         boolean present = hasPresentPlayer(serverLevel, pos);
         int age = state.getValue(EchoCropBlock.AGE);
         GrowthResult result = EchoConfigs.rules().grow(
-            new GrowthState(age, entity.presenceValueMillis),
-            present,
-            EchoRules.MILLIS_PER_GAME_TICK
+                new GrowthState(age, entity.presenceValueMillis),
+                present,
+                EchoRules.MILLIS_PER_GAME_TICK
         );
         GrowthState next = result.state();
         if (entity.presenceValueMillis != next.presenceValueMillis()) {
@@ -61,7 +61,7 @@ public class EchoCropBlockEntity extends BlockEntity {
     static boolean hasPresentPlayer(ServerLevel level, BlockPos crop) {
         for (ServerPlayer player : level.players()) {
             if (EchoRules.isEligiblePresent(player.isAlive(), player.isSpectator(), isRealConnectedPlayer(player))
-                && EchoRules.isInsidePresenceRange(
+                    && EchoRules.isInsidePresenceRange(
                     crop.getX(),
                     crop.getY(),
                     crop.getZ(),
@@ -69,7 +69,7 @@ public class EchoCropBlockEntity extends BlockEntity {
                     player.getBlockY(),
                     player.getBlockZ(),
                     EchoConfigs.rules().presenceRange()
-                )) {
+            )) {
                 return true;
             }
         }

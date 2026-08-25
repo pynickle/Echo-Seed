@@ -29,10 +29,10 @@ public class EchoFruitItem extends Item {
             return InteractionResult.SUCCESS;
         }
         MarkLocation here = new MarkLocation(
-            level.dimension().identifier().toString(),
-            player.getX(),
-            player.getY(),
-            player.getZ()
+                level.dimension().identifier().toString(),
+                player.getX(),
+                player.getY(),
+                player.getZ()
         );
         MarkUseResult result = EchoConfigs.rules().useFruit(EchoMarks.get(serverPlayer), player.isShiftKeyDown(), here);
         if (result.action() == FruitAction.TELEPORT) {

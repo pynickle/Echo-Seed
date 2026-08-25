@@ -13,11 +13,11 @@ import java.util.Locale;
  * Server-owned configuration values. No Minecraft or YACL types.
  */
 public record EchoConfig(
-    double growthSpeed,
-    double markDurationSeconds,
-    double cooldownSeconds,
-    int presenceRange,
-    boolean showMarkDuration
+        double growthSpeed,
+        double markDurationSeconds,
+        double cooldownSeconds,
+        int presenceRange,
+        boolean showMarkDuration
 ) {
     public static final EchoConfig DEFAULTS = new EchoConfig(1.0, 45.0, 8.0, 4, false);
     public static final String FILE_NAME = "echo_seed.json";
@@ -28,18 +28,18 @@ public record EchoConfig(
     public static final String SHOW_MARK_DURATION_KEY = "show_mark_duration";
 
     public static EchoConfig sanitize(
-        double growthSpeed,
-        double markDurationSeconds,
-        double cooldownSeconds,
-        int presenceRange,
-        boolean showMarkDuration
+            double growthSpeed,
+            double markDurationSeconds,
+            double cooldownSeconds,
+            int presenceRange,
+            boolean showMarkDuration
     ) {
         return new EchoConfig(
-            growthSpeed > 0.0 ? growthSpeed : DEFAULTS.growthSpeed,
-            markDurationSeconds > 0.0 ? markDurationSeconds : DEFAULTS.markDurationSeconds,
-            cooldownSeconds >= 0.0 ? cooldownSeconds : DEFAULTS.cooldownSeconds,
-            presenceRange >= 0 ? presenceRange : DEFAULTS.presenceRange,
-            showMarkDuration
+                growthSpeed > 0.0 ? growthSpeed : DEFAULTS.growthSpeed,
+                markDurationSeconds > 0.0 ? markDurationSeconds : DEFAULTS.markDurationSeconds,
+                cooldownSeconds >= 0.0 ? cooldownSeconds : DEFAULTS.cooldownSeconds,
+                presenceRange >= 0 ? presenceRange : DEFAULTS.presenceRange,
+                showMarkDuration
         );
     }
 
@@ -54,11 +54,11 @@ public record EchoConfig(
             }
             JsonObject object = element.getAsJsonObject();
             return sanitize(
-                number(object, GROWTH_SPEED_KEY, DEFAULTS.growthSpeed),
-                number(object, MARK_DURATION_SECONDS_KEY, DEFAULTS.markDurationSeconds),
-                number(object, COOLDOWN_SECONDS_KEY, DEFAULTS.cooldownSeconds),
-                (int) number(object, PRESENCE_RANGE_KEY, DEFAULTS.presenceRange),
-                booleanValue(object, SHOW_MARK_DURATION_KEY, DEFAULTS.showMarkDuration)
+                    number(object, GROWTH_SPEED_KEY, DEFAULTS.growthSpeed),
+                    number(object, MARK_DURATION_SECONDS_KEY, DEFAULTS.markDurationSeconds),
+                    number(object, COOLDOWN_SECONDS_KEY, DEFAULTS.cooldownSeconds),
+                    (int) number(object, PRESENCE_RANGE_KEY, DEFAULTS.presenceRange),
+                    booleanValue(object, SHOW_MARK_DURATION_KEY, DEFAULTS.showMarkDuration)
             );
         } catch (RuntimeException ignored) {
             return DEFAULTS;
@@ -86,12 +86,12 @@ public record EchoConfig(
 
     public String toJson() {
         return "{\n"
-            + "  \"" + GROWTH_SPEED_KEY + "\": " + number(growthSpeed) + ",\n"
-            + "  \"" + MARK_DURATION_SECONDS_KEY + "\": " + number(markDurationSeconds) + ",\n"
-            + "  \"" + COOLDOWN_SECONDS_KEY + "\": " + number(cooldownSeconds) + ",\n"
-            + "  \"" + PRESENCE_RANGE_KEY + "\": " + presenceRange + ",\n"
-            + "  \"" + SHOW_MARK_DURATION_KEY + "\": " + showMarkDuration + "\n"
-            + "}\n";
+                + "  \"" + GROWTH_SPEED_KEY + "\": " + number(growthSpeed) + ",\n"
+                + "  \"" + MARK_DURATION_SECONDS_KEY + "\": " + number(markDurationSeconds) + ",\n"
+                + "  \"" + COOLDOWN_SECONDS_KEY + "\": " + number(cooldownSeconds) + ",\n"
+                + "  \"" + PRESENCE_RANGE_KEY + "\": " + presenceRange + ",\n"
+                + "  \"" + SHOW_MARK_DURATION_KEY + "\": " + showMarkDuration + "\n"
+                + "}\n";
     }
 
     public long stageDurationMillis() {

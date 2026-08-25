@@ -16,12 +16,12 @@ public final class EchoBlocks {
 
     public static BlockBehaviour.Properties cropProperties() {
         return BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_CYAN)
-            .noCollision()
-            .instabreak()
-            .sound(SoundType.CROP)
-            .pushReaction(PushReaction.DESTROY)
-            .noLootTable()
-            .lightLevel(state -> state.getValue(EchoCropBlock.AGE) == EchoRules.MATURE_AGE ? 4 : 0);
+                .mapColor(MapColor.COLOR_CYAN)
+                .noCollision()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY)
+                .noLootTable()
+                .lightLevel(state -> state.getValue(EchoCropBlock.AGE) == EchoRules.MATURE_AGE ? 4 : 0);
     }
 }

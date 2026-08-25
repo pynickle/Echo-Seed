@@ -56,36 +56,36 @@ public final class EchoMarkClient {
         }
         MarkLocation location = mark.get().location();
         for (MarkParticlePlan.Mote mote : MarkParticlePlan.motesForTick(
-            true,
-            remainingMillis,
-            EchoConfigs.rules().markDurationMillis(),
-            location.dimension(),
-            level.dimension().identifier().toString(),
-            location.x(),
-            location.y(),
-            location.z(),
-            clientRandom(level.getRandom())
+                true,
+                remainingMillis,
+                EchoConfigs.rules().markDurationMillis(),
+                location.dimension(),
+                level.dimension().identifier().toString(),
+                location.x(),
+                location.y(),
+                location.z(),
+                clientRandom(level.getRandom())
         )) {
             level.addParticle(
-                new DustParticleOptions(mote.color(), mote.scale()),
-                mote.x(),
-                mote.y(),
-                mote.z(),
-                mote.vx(),
-                mote.vy(),
-                mote.vz()
+                    new DustParticleOptions(mote.color(), mote.scale()),
+                    mote.x(),
+                    mote.y(),
+                    mote.z(),
+                    mote.vx(),
+                    mote.vy(),
+                    mote.vz()
             );
         }
     }
 
     private static void showDuration(Minecraft minecraft) {
         MarkDurationDisplay.remainingSeconds(EchoConfigs.active().showMarkDuration(), remainingMillis)
-            .ifPresentOrElse(seconds -> {
-                Component time = Component.literal(Long.toString(seconds))
-                    .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
-                minecraft.gui.setOverlayMessage(Component.translatable(MARK_DURATION_DISPLAY_KEY, time), false);
-                showingDuration = true;
-            }, () -> clearDuration(minecraft));
+                .ifPresentOrElse(seconds -> {
+                    Component time = Component.literal(Long.toString(seconds))
+                            .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
+                    minecraft.gui.setOverlayMessage(Component.translatable(MARK_DURATION_DISPLAY_KEY, time), false);
+                    showingDuration = true;
+                }, () -> clearDuration(minecraft));
     }
 
     private static void clearDuration(Minecraft minecraft) {
