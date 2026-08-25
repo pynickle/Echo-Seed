@@ -45,7 +45,7 @@ _Avoid_: harvest (unqualified), break, mine
 ## Mark
 
 **Mark (回响标记)**:
-A player-owned location created by using an Echo Fruit. Only that player can see it: a one-player-tall translucent pillar with a faint footprint, fading over its lifetime. A player has at most one live Mark. Sneak-using an Echo Fruit dismisses the live Mark without teleporting or consuming the fruit. A Mark may point into another dimension.
+A player-owned location created by using an Echo Fruit. Only that player can see it: a rough, fading column of rising particles at the marked place. A player has at most one live Mark. Sneak-using an Echo Fruit dismisses the live Mark without teleporting or consuming the fruit. A Mark may point into another dimension.
 _Avoid_: waypoint, lodestone, compass, banner
 
 **Common Seed**:

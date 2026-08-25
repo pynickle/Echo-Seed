@@ -6,25 +6,14 @@ import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.LiveMark;
 import com.euphony.echoseed.rules.MarkLocation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.DustColorTransitionOptions;
-import net.minecraft.gizmos.GizmoStyle;
-import net.minecraft.gizmos.Gizmos;
-import net.minecraft.util.ARGB;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
+import java.util.random.RandomGenerator;
 
 public final class EchoMarkClient {
-    private static final float PILLAR_HALF_WIDTH = 0.22F;
-    private static final float PILLAR_CORE_HALF_WIDTH = 0.07F;
-    private static final float PILLAR_HEIGHT = 1.8F;
-    private static final float FOOTPRINT_HALF = 0.4F;
-    private static final float FOOTPRINT_HEIGHT = 0.02F;
-    private static final int GIZMO_LIFE_MILLIS = 80;
-    private static final int TEAL_RGB = 0x009295;
-
     private static Optional<LiveMark> mark = Optional.empty();
     private static long remainingMillis;
     private static long lastClock = Long.MIN_VALUE;
@@ -39,7 +28,7 @@ public final class EchoMarkClient {
         lastClock = Long.MIN_VALUE;
     }
 
-    public static void emitGizmos() {
+    public static void tick() {
         Minecraft minecraft = Minecraft.getInstance();
         Level level = minecraft.level;
         if (level == null || mark.isEmpty()) {
@@ -54,43 +43,44 @@ public final class EchoMarkClient {
             mark = Optional.empty();
             return;
         }
-        MarkLocation location = mark.get().location();
-        if (!location.dimension().equals(level.dimension().identifier().toString())) {
+        if (minecraft.isPaused()) {
             return;
         }
-        float fade = (float) remainingMillis / (float) Math.max(1L, EchoConfigs.rules().markDurationMillis());
-        int glow = DustColorTransitionOptions.SCULK_PARTICLE_COLOR;
-        int pillarFill = ARGB.color((int) (80 * fade), TEAL_RGB);
-        int pillarStroke = ARGB.color((int) (150 * fade), glow);
-        int coreFill = ARGB.color((int) (130 * fade), glow);
-        int footprintFill = ARGB.color((int) (90 * fade), TEAL_RGB);
-        Vec3 feet = new Vec3(location.x(), location.y(), location.z());
-        AABB pillar = new AABB(
-            feet.x - PILLAR_HALF_WIDTH,
-            feet.y,
-            feet.z - PILLAR_HALF_WIDTH,
-            feet.x + PILLAR_HALF_WIDTH,
-            feet.y + PILLAR_HEIGHT,
-            feet.z + PILLAR_HALF_WIDTH
-        );
-        AABB core = new AABB(
-            feet.x - PILLAR_CORE_HALF_WIDTH,
-            feet.y,
-            feet.z - PILLAR_CORE_HALF_WIDTH,
-            feet.x + PILLAR_CORE_HALF_WIDTH,
-            feet.y + PILLAR_HEIGHT,
-            feet.z + PILLAR_CORE_HALF_WIDTH
-        );
-        AABB footprint = new AABB(
-            feet.x - FOOTPRINT_HALF,
-            feet.y,
-            feet.z - FOOTPRINT_HALF,
-            feet.x + FOOTPRINT_HALF,
-            feet.y + FOOTPRINT_HEIGHT,
-            feet.z + FOOTPRINT_HALF
-        );
-        Gizmos.cuboid(pillar, GizmoStyle.strokeAndFill(pillarStroke, 1.5F, pillarFill)).persistForMillis(GIZMO_LIFE_MILLIS);
-        Gizmos.cuboid(core, GizmoStyle.fill(coreFill)).persistForMillis(GIZMO_LIFE_MILLIS);
-        Gizmos.cuboid(footprint, GizmoStyle.fill(footprintFill)).persistForMillis(GIZMO_LIFE_MILLIS);
+        MarkLocation location = mark.get().location();
+        for (MarkParticlePlan.Mote mote : MarkParticlePlan.motesForTick(
+            true,
+            remainingMillis,
+            EchoConfigs.rules().markDurationMillis(),
+            location.dimension(),
+            level.dimension().identifier().toString(),
+            location.x(),
+            location.y(),
+            location.z(),
+            clientRandom(level.getRandom())
+        )) {
+            level.addParticle(
+                new DustParticleOptions(mote.color(), mote.scale()),
+                mote.x(),
+                mote.y(),
+                mote.z(),
+                mote.vx(),
+                mote.vy(),
+                mote.vz()
+            );
+        }
+    }
+
+    private static RandomGenerator clientRandom(RandomSource random) {
+        return new RandomGenerator() {
+            @Override
+            public long nextLong() {
+                return random.nextLong();
+            }
+
+            @Override
+            public double nextDouble() {
+                return random.nextDouble();
+            }
+        };
     }
 }
