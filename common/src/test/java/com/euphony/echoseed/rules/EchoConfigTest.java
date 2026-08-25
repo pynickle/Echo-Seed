@@ -24,6 +24,7 @@ class EchoConfigTest {
         assertEquals(45.0, config.markDurationSeconds());
         assertEquals(8.0, config.cooldownSeconds());
         assertEquals(4, config.presenceRange());
+        assertFalse(config.showMarkDuration());
     }
 
     @Test
@@ -39,14 +40,15 @@ class EchoConfigTest {
     }
 
     @Test
-    void jsonWithTheFourKeysLoads() {
+    void jsonWithAllKeysLoads() {
         EchoConfig config = EchoConfig.parse(
             """
             {
               "growth_speed": 2.0,
               "mark_duration_seconds": 10.0,
               "cooldown_seconds": 3.0,
-              "presence_range": 2
+              "presence_range": 2,
+              "show_mark_duration": true
             }
             """
         );
@@ -55,6 +57,7 @@ class EchoConfigTest {
         assertEquals(10.0, config.markDurationSeconds());
         assertEquals(3.0, config.cooldownSeconds());
         assertEquals(2, config.presenceRange());
+        assertTrue(config.showMarkDuration());
     }
 
     @Test
@@ -65,12 +68,13 @@ class EchoConfigTest {
         assertEquals(45.0, config.markDurationSeconds());
         assertEquals(8.0, config.cooldownSeconds());
         assertEquals(4, config.presenceRange());
+        assertFalse(config.showMarkDuration());
     }
 
     @Test
     void writtenFileIsTheSameJsonADedicatedServerWouldRead(@TempDir Path dir) throws Exception {
         Path file = dir.resolve("echo_seed.json");
-        EchoConfig original = new EchoConfig(0.5, 30.0, 12.0, 6);
+        EchoConfig original = new EchoConfig(0.5, 30.0, 12.0, 6, true);
 
         EchoConfig.write(file, original);
 
@@ -79,6 +83,7 @@ class EchoConfigTest {
         assertTrue(json.contains("\"mark_duration_seconds\""));
         assertTrue(json.contains("\"cooldown_seconds\""));
         assertTrue(json.contains("\"presence_range\""));
+        assertTrue(json.contains("\"show_mark_duration\""));
         assertEquals(original, EchoConfig.read(file));
     }
 

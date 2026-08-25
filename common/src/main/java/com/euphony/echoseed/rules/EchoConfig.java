@@ -10,32 +10,36 @@ import java.nio.file.Path;
 import java.util.Locale;
 
 /**
- * Server-owned gameplay numbers. No Minecraft or YACL types.
+ * Server-owned configuration values. No Minecraft or YACL types.
  */
 public record EchoConfig(
     double growthSpeed,
     double markDurationSeconds,
     double cooldownSeconds,
-    int presenceRange
+    int presenceRange,
+    boolean showMarkDuration
 ) {
-    public static final EchoConfig DEFAULTS = new EchoConfig(1.0, 45.0, 8.0, 4);
+    public static final EchoConfig DEFAULTS = new EchoConfig(1.0, 45.0, 8.0, 4, false);
     public static final String FILE_NAME = "echo_seed.json";
     public static final String GROWTH_SPEED_KEY = "growth_speed";
     public static final String MARK_DURATION_SECONDS_KEY = "mark_duration_seconds";
     public static final String COOLDOWN_SECONDS_KEY = "cooldown_seconds";
     public static final String PRESENCE_RANGE_KEY = "presence_range";
+    public static final String SHOW_MARK_DURATION_KEY = "show_mark_duration";
 
     public static EchoConfig sanitize(
         double growthSpeed,
         double markDurationSeconds,
         double cooldownSeconds,
-        int presenceRange
+        int presenceRange,
+        boolean showMarkDuration
     ) {
         return new EchoConfig(
             growthSpeed > 0.0 ? growthSpeed : DEFAULTS.growthSpeed,
             markDurationSeconds > 0.0 ? markDurationSeconds : DEFAULTS.markDurationSeconds,
             cooldownSeconds >= 0.0 ? cooldownSeconds : DEFAULTS.cooldownSeconds,
-            presenceRange >= 0 ? presenceRange : DEFAULTS.presenceRange
+            presenceRange >= 0 ? presenceRange : DEFAULTS.presenceRange,
+            showMarkDuration
         );
     }
 
@@ -53,7 +57,8 @@ public record EchoConfig(
                 number(object, GROWTH_SPEED_KEY, DEFAULTS.growthSpeed),
                 number(object, MARK_DURATION_SECONDS_KEY, DEFAULTS.markDurationSeconds),
                 number(object, COOLDOWN_SECONDS_KEY, DEFAULTS.cooldownSeconds),
-                (int) number(object, PRESENCE_RANGE_KEY, DEFAULTS.presenceRange)
+                (int) number(object, PRESENCE_RANGE_KEY, DEFAULTS.presenceRange),
+                booleanValue(object, SHOW_MARK_DURATION_KEY, DEFAULTS.showMarkDuration)
             );
         } catch (RuntimeException ignored) {
             return DEFAULTS;
@@ -84,7 +89,8 @@ public record EchoConfig(
             + "  \"" + GROWTH_SPEED_KEY + "\": " + number(growthSpeed) + ",\n"
             + "  \"" + MARK_DURATION_SECONDS_KEY + "\": " + number(markDurationSeconds) + ",\n"
             + "  \"" + COOLDOWN_SECONDS_KEY + "\": " + number(cooldownSeconds) + ",\n"
-            + "  \"" + PRESENCE_RANGE_KEY + "\": " + presenceRange + "\n"
+            + "  \"" + PRESENCE_RANGE_KEY + "\": " + presenceRange + ",\n"
+            + "  \"" + SHOW_MARK_DURATION_KEY + "\": " + showMarkDuration + "\n"
             + "}\n";
     }
 
@@ -105,6 +111,13 @@ public record EchoConfig(
             return fallback;
         }
         return object.get(key).getAsDouble();
+    }
+
+    private static boolean booleanValue(JsonObject object, String key, boolean fallback) {
+        if (!object.has(key) || !object.get(key).isJsonPrimitive() || !object.get(key).getAsJsonPrimitive().isBoolean()) {
+            return fallback;
+        }
+        return object.get(key).getAsBoolean();
     }
 
     private static String number(double value) {

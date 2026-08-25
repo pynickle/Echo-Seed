@@ -70,9 +70,9 @@ Add one plantable Echo Seed (回响种子) that becomes an Echo Crop (回响植�
 56. As a player teleporting, I want a short dark-teal particle gather/scatter and a soft echo sound, so that the move is readable.
 57. As a player cancelling a Mark, I want the pillar to vanish with no teleport effects, so that cancel is not confused with travel.
 58. As a player, I do not want teleport to deal damage, weakness, or fire, so that the fruit does not change combat.
-59. As a server operator, I want growth speed, Mark duration, cooldown, and Presence Range in a server-owned config file, so that clients cannot lie about the rules.
+59. As a server operator, I want growth speed, Mark duration, cooldown, Presence Range, and an optional persistent Mark-duration action-bar display in a server-owned config file, so that the server controls Echo Seed behavior and feedback.
 60. As a server operator, I want that file to load even when YACL is absent, so that dedicated servers do not depend on a GUI mod.
-61. As a player with YACL and a config screen entry, I want to edit those four values, so that I can tune feel in singleplayer.
+61. As a player with YACL and a config screen entry, I want to edit those five values, so that I can tune feel and feedback in singleplayer.
 62. As a player without YACL, I want the same JSON defaults to apply, so that the mod still works.
 63. As a player on a dedicated server, I want the client to show the server's values in YACL, so that the GUI is not a lie.
 64. As a player, I want sculk/echo colours (dark teal, black-green, faint glow) on seed, crop, fruit, and Mark, so that the set reads as one thing.
@@ -95,7 +95,7 @@ Add one plantable Echo Seed (回响种子) that becomes an Echo Crop (回响植�
 - Mark is per-player, not per-item (ADR-0002). No live Mark + use → create Mark, do not consume. Live Mark + use → teleport, clear Mark, consume one fruit. Sneak + live Mark → clear Mark, no teleport, no consume. One Mark per player. Duration default 45s of server real time, including other dimensions. Cooldown default 8s after a successful teleport only.
 - Teleport stores dimension + position. Cross-dimension is allowed. Destination chunks load as part of teleport. If the destination is inside a block, search upward for air. Lava/void are not special-cased. No damage, no status effects.
 - Mark rendering is client-only for the owning player: one-player-tall translucent pillar, faint footprint, fade over remaining lifetime, no collision. Other clients must not spawn it.
-- Config is server-owned JSON (ADR-0005). Keys: growth speed, Mark duration, cooldown, Presence Range. Sync to clients for GUI display. YACL is optional (`suggests` / NeoForge optional). YACL types must not load unless the mod is present. JSON still loads without YACL. Do not copy Better-Client’s “no YACL ⇒ ignore file” behaviour.
+- Config is server-owned JSON (ADR-0005). Keys: growth speed, Mark duration, cooldown, Presence Range, and whether the remaining Mark duration stays visible in the action bar while a live Mark exists (default off). Sync to clients for GUI display. YACL is optional (`suggests` / NeoForge optional). YACL types must not load unless the mod is present. JSON still loads without YACL. Do not copy Better-Client’s “no YACL ⇒ ignore file” behaviour.
 - Visual theme is sculk/echo. Texture production may use Imagine, ImageMagick, scripts, or vanilla references; the acceptance bar is “looks like a finished Minecraft plant,” not a specific toolchain.
 - Do not change vanilla mining, movement, or combat. No new dimension, no extra plants, no weight system.
 

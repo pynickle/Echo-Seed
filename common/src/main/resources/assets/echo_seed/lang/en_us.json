@@ -3,6 +3,7 @@
   "item.echo_seed.echo_fruit": "Echo Fruit",
   "block.echo_seed.echo_crop": "Echo Crop",
   "echo_seed.mark.cooldown": "Echo Fruit is still echoing",
+  "echo_seed.mark.duration_remaining": "Mark duration remaining: %s s",
   "echo_seed.config.title": "Echo Seed",
   "echo_seed.config.category.gameplay": "Gameplay",
   "echo_seed.config.growth_speed": "Growth speed",
@@ -12,5 +13,7 @@
   "echo_seed.config.cooldown_seconds": "Teleport cooldown (seconds)",
   "echo_seed.config.cooldown_seconds.desc": "Wait after a successful teleport before another Echo Fruit use.",
   "echo_seed.config.presence_range": "Presence Range",
-  "echo_seed.config.presence_range.desc": "Chebyshev extent of the Presence cube. 4 is a 9×9×9 cube."
+  "echo_seed.config.presence_range.desc": "Chebyshev extent of the Presence cube. 4 is a 9×9×9 cube.",
+  "echo_seed.config.show_mark_duration": "Show Mark duration",
+  "echo_seed.config.show_mark_duration.desc": "Continuously show the remaining duration in the action bar while a Mark is live."
 }

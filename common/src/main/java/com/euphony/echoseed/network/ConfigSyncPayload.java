@@ -10,7 +10,8 @@ public record ConfigSyncPayload(
     double growthSpeed,
     double markDurationSeconds,
     double cooldownSeconds,
-    int presenceRange
+    int presenceRange,
+    boolean showMarkDuration
 ) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<ConfigSyncPayload> TYPE =
         new CustomPacketPayload.Type<>(EchoSeed.id("config_sync"));
@@ -22,16 +23,23 @@ public record ConfigSyncPayload(
             config.growthSpeed(),
             config.markDurationSeconds(),
             config.cooldownSeconds(),
-            config.presenceRange()
+            config.presenceRange(),
+            config.showMarkDuration()
         );
     }
 
     public EchoConfig toConfig() {
-        return EchoConfig.sanitize(growthSpeed, markDurationSeconds, cooldownSeconds, presenceRange);
+        return EchoConfig.sanitize(growthSpeed, markDurationSeconds, cooldownSeconds, presenceRange, showMarkDuration);
     }
 
     private static ConfigSyncPayload read(FriendlyByteBuf input) {
-        return new ConfigSyncPayload(input.readDouble(), input.readDouble(), input.readDouble(), input.readVarInt());
+        return new ConfigSyncPayload(
+            input.readDouble(),
+            input.readDouble(),
+            input.readDouble(),
+            input.readVarInt(),
+            input.readBoolean()
+        );
     }
 
     private void write(FriendlyByteBuf output) {
@@ -39,6 +47,7 @@ public record ConfigSyncPayload(
         output.writeDouble(markDurationSeconds);
         output.writeDouble(cooldownSeconds);
         output.writeVarInt(presenceRange);
+        output.writeBoolean(showMarkDuration);
     }
 
     @Override

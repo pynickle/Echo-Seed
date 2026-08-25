@@ -23,6 +23,7 @@ run
 .agents/
 .claude/
 .grok/
+.codex/
 
 skills-lock.json
 

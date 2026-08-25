@@ -6,6 +6,7 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.DoubleFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import net.minecraft.client.Minecraft;
@@ -61,6 +62,17 @@ public final class EchoYaclScreen {
                     .controller(IntegerFieldControllerBuilder::create)
                     .available(editable)
                     .build())
+                .option(Option.<Boolean>createBuilder()
+                    .name(Component.translatable("echo_seed.config.show_mark_duration"))
+                    .description(OptionDescription.of(Component.translatable("echo_seed.config.show_mark_duration.desc")))
+                    .binding(
+                        EchoConfig.DEFAULTS.showMarkDuration(),
+                        () -> draft.showMarkDuration,
+                        value -> draft.showMarkDuration = value
+                    )
+                    .controller(BooleanControllerBuilder::create)
+                    .available(editable)
+                    .build())
                 .build())
             .save(() -> save(draft, editable))
             .build()
@@ -91,7 +103,8 @@ public final class EchoYaclScreen {
             draft.growthSpeed,
             draft.markDurationSeconds,
             draft.cooldownSeconds,
-            draft.presenceRange
+            draft.presenceRange,
+            draft.showMarkDuration
         ));
         EchoConfigs.save();
         Minecraft minecraft = Minecraft.getInstance();
@@ -110,6 +123,7 @@ public final class EchoYaclScreen {
         private double markDurationSeconds;
         private double cooldownSeconds;
         private int presenceRange;
+        private boolean showMarkDuration;
 
         private static Draft from(EchoConfig config) {
             Draft draft = new Draft();
@@ -117,6 +131,7 @@ public final class EchoYaclScreen {
             draft.markDurationSeconds = config.markDurationSeconds();
             draft.cooldownSeconds = config.cooldownSeconds();
             draft.presenceRange = config.presenceRange();
+            draft.showMarkDuration = config.showMarkDuration();
             return draft;
         }
     }
