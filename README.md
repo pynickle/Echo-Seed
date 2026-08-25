@@ -1,42 +1,37 @@
-# Echo Seed / 回响种子
+# Echo Seed
 
-A Fabric + NeoForge mod for Minecraft 26.1.2: one Presence-grown plant whose Echo Fruit marks a place and later returns you there.
+**Echo Seed** is a tiny vanilla-feeling plant for Fabric and NeoForge. It grows only while you are nearby. Its fruit remembers a place — then brings you back.
 
-## Project structure
+No new dimension. No waypoint network. No combat changes.
 
-- `common/` — shared code, resources, mixins, Access Widener, and the Echo rules module
-- `fabric/` — Fabric entrypoints and metadata
-- `neoforge/` — NeoForge entrypoints and metadata
-- `gradle.properties` — versions and mod coordinates (`echo_seed`, `com.euphony.echoseed`)
+## Presence
 
-## Requirements
+Craft an **Echo Seed** from any common seed (`#c:seeds`) and glowstone dust. Seeds from other crop mods work when they join that tag. Plant it on farmland, dirt, grass, podzol, or mycelium — you do not need a hoe.
 
-- JDK 25
-- Gradle Wrapper (`./gradlew` or `gradlew.bat`)
+The **Echo Crop** ignores bone meal and the passage of time. It grows while a real, living player is inside a 9×9×9 cube around it. Walking, flying, swimming, and riding all count. Spectators, dead players, and fake players do not. A housemate can tend it; a crowd is not fertilizer.
 
-## Getting started
+Four stages, like a sweet berry bush. About two minutes of presence per stage; the first harvest is around six minutes. Leave mid-stage and only the current progress fades. A finished plant stays ready.
 
-```bash
-./gradlew build
-./gradlew :common:test
-```
+When it glows (light 4), right-click to pick **2–4 Echo Fruit**. The plant stays and returns to stage 1. Break a mature plant to take the fruit and the seed with you.
 
-Use your IDE's generated run configs, or Gradle tasks, to launch Fabric or NeoForge during development.
+## Echo Fruit
 
-> [!NOTE]
-> This project targets Minecraft `26.1.2`, Fabric Loader `0.19.3`, Fabric API `0.155.2+26.1.2`, and NeoForge `26.1.2.95`. License is MIT.
+Not food. Not compost.
 
-## Access wideners
+- **Use** with no Mark — leave a personal Mark at your feet. The fruit is not consumed.
+- **Use** with a live Mark — teleport there (including other dimensions), clear the Mark, consume one fruit.
+- **Sneak-use** with a live Mark — dismiss it. No teleport, no consume.
 
-This project keeps a single Access Widener in `common/src/main/resources/${mod_id}.accesswidener` and wires both loaders to that file.
+You have at most one Mark. Only you can see it: a fading teal pillar, **45 seconds**. After a successful teleport, wait **8 seconds**.
 
-- Fabric copies it into the jar (`processResources`) and injects it with Loom (`loom.injectAccessWidener`). `fabric.mod.json` declares the same file as `"accessWidener"`.
-- NeoForge reads the same file through `loom.accessWidenerPath` and converts it to `META-INF/accesstransformer.cfg` when building the remapped jar (`loom.neoForge.convertAccessWideners`). There is no hand-written Access Transformer source file.
+Plant it by the door. Mark the threshold. Step into a cave. Use the fruit to come home.
 
-## Notes
+## Config
 
-- Shared initialization starts in `common/src/main/java/com/euphony/echoseed/EchoSeed.java`
-- Echo Seed item, Echo Crop block, recipe, and Plantable Soil tag live in `common/`
-- Growth, Mark, and drop rules live in `common/src/main/java/com/euphony/echoseed/rules/`
-- Fabric metadata lives in `fabric/src/main/resources/fabric.mod.json`
-- NeoForge metadata lives in `neoforge/src/main/resources/META-INF/neoforge.mods.toml`
+[YetAnotherConfigLib](https://modrinth.com/mod/yacl) is optional. The server still owns `config/echo_seed.json`:
+
+- Growth speed (default `1.0` ≈ 120 seconds per stage)
+- Mark duration (default 45 seconds)
+- Teleport cooldown (default 8 seconds)
+- Presence range (default 4 → 9×9×9)
+- Show remaining Mark time on the action bar (default off)

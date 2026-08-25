@@ -28,3 +28,7 @@ run
 skills-lock.json
 
 .scratch/
+
+bun.lock
+
+node_modules/
