@@ -11,6 +11,7 @@
     "homepage": "https://github.com/pynickle/Echo-Seed"
   },
   "license": "MIT",
+  "icon": "assets/echo_seed/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

@@ -3,6 +3,7 @@ plugins {
 }
 
 def commonAccessWidener = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+def commonIcon = project(':common').file("src/main/resources/assets/${mod_id}/icon.png")
 
 configurations {
     shadowCommon
@@ -47,6 +48,8 @@ dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
 
     compileOnly "dev.isxander:yet-another-config-lib:${rootProject.yacl_version_neoforge}"
+    // Optional for players; load YACL in runClient. NeoForge has no Mod Menu.
+    localRuntime "dev.isxander:yet-another-config-lib:${rootProject.yacl_version_neoforge}"
 
     common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }
@@ -54,6 +57,9 @@ dependencies {
 
 processResources {
     inputs.property 'version', project.version
+    inputs.file commonIcon
+
+    from(commonIcon)
 
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: project.version

@@ -8,6 +8,8 @@ modId = "echo_seed"
 version = "${version}"
 displayName = "Echo Seed / 回响种子"
 authors = "ENC_Euphony"
+logoFile = "icon.png"
+logoBlur = false
 description = '''
 A Presence-grown plant whose Echo Fruit marks a place and later returns you there.
 '''

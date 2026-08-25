@@ -3,6 +3,7 @@ plugins {
 }
 
 def commonAccessWidener = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+def commonIcon = project(':common').file("src/main/resources/assets/${mod_id}/icon.png")
 
 architectury {
     platformSetupLoomIde()
@@ -42,6 +43,9 @@ dependencies {
 
     compileOnly "dev.isxander:yet-another-config-lib:${rootProject.yacl_version_fabric}"
     compileOnly "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
+    // Optional for players (`suggests`); load them in runClient.
+    localRuntime "dev.isxander:yet-another-config-lib:${rootProject.yacl_version_fabric}"
+    localRuntime "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
 
     common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -49,8 +53,12 @@ dependencies {
 
 processResources {
     inputs.property 'version', project.version
+    inputs.file commonIcon
 
     from(commonAccessWidener)
+    from(commonIcon) {
+        into "assets/${mod_id}"
+    }
 
     filesMatching('fabric.mod.json') {
         expand version: project.version
