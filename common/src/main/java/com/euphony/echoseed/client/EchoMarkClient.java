@@ -18,10 +18,12 @@ import java.util.Optional;
 
 public final class EchoMarkClient {
     private static final float PILLAR_HALF_WIDTH = 0.22F;
+    private static final float PILLAR_CORE_HALF_WIDTH = 0.07F;
     private static final float PILLAR_HEIGHT = 1.8F;
-    private static final float FOOTPRINT_HALF = 0.32F;
-    private static final float FOOTPRINT_HEIGHT = 0.03F;
+    private static final float FOOTPRINT_HALF = 0.4F;
+    private static final float FOOTPRINT_HEIGHT = 0.02F;
     private static final int GIZMO_LIFE_MILLIS = 80;
+    private static final int TEAL_RGB = 0x009295;
 
     private static Optional<LiveMark> mark = Optional.empty();
     private static long remainingMillis;
@@ -57,10 +59,11 @@ public final class EchoMarkClient {
             return;
         }
         float fade = (float) remainingMillis / (float) Math.max(1L, EchoConfigs.rules().markDurationMillis());
-        int rgb = DustColorTransitionOptions.SCULK_PARTICLE_COLOR;
-        int pillarFill = ARGB.color((int) (90 * fade), rgb);
-        int pillarStroke = ARGB.color((int) (140 * fade), rgb);
-        int footprintFill = ARGB.color((int) (70 * fade), rgb);
+        int glow = DustColorTransitionOptions.SCULK_PARTICLE_COLOR;
+        int pillarFill = ARGB.color((int) (80 * fade), TEAL_RGB);
+        int pillarStroke = ARGB.color((int) (150 * fade), glow);
+        int coreFill = ARGB.color((int) (130 * fade), glow);
+        int footprintFill = ARGB.color((int) (90 * fade), TEAL_RGB);
         Vec3 feet = new Vec3(location.x(), location.y(), location.z());
         AABB pillar = new AABB(
             feet.x - PILLAR_HALF_WIDTH,
@@ -69,6 +72,14 @@ public final class EchoMarkClient {
             feet.x + PILLAR_HALF_WIDTH,
             feet.y + PILLAR_HEIGHT,
             feet.z + PILLAR_HALF_WIDTH
+        );
+        AABB core = new AABB(
+            feet.x - PILLAR_CORE_HALF_WIDTH,
+            feet.y,
+            feet.z - PILLAR_CORE_HALF_WIDTH,
+            feet.x + PILLAR_CORE_HALF_WIDTH,
+            feet.y + PILLAR_HEIGHT,
+            feet.z + PILLAR_CORE_HALF_WIDTH
         );
         AABB footprint = new AABB(
             feet.x - FOOTPRINT_HALF,
@@ -79,6 +90,7 @@ public final class EchoMarkClient {
             feet.z + FOOTPRINT_HALF
         );
         Gizmos.cuboid(pillar, GizmoStyle.strokeAndFill(pillarStroke, 1.5F, pillarFill)).persistForMillis(GIZMO_LIFE_MILLIS);
+        Gizmos.cuboid(core, GizmoStyle.fill(coreFill)).persistForMillis(GIZMO_LIFE_MILLIS);
         Gizmos.cuboid(footprint, GizmoStyle.fill(footprintFill)).persistForMillis(GIZMO_LIFE_MILLIS);
     }
 }

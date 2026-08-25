@@ -9,7 +9,6 @@ import com.euphony.echoseed.rules.EchoRules;
 import com.euphony.echoseed.rules.LeaveReason;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.DustColorTransitionOptions;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -50,6 +49,7 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
         Block.box(2.0, 0.0, 2.0, 14.0, 12.0, 14.0),
         Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0)
     };
+    private static final int PRESENCE_PARTICLE_COLOR = 0x009295;
 
     public EchoCropBlock(Properties properties) {
         super(properties);
@@ -84,11 +84,12 @@ public class EchoCropBlock extends VegetationBlock implements EntityBlock {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (state.getValue(PRESENT) && random.nextInt(10) == 0) {
+            double height = 0.2 + state.getValue(AGE) * 0.35 + random.nextDouble() * 0.4;
             level.addParticle(
-                new DustParticleOptions(DustColorTransitionOptions.SCULK_PARTICLE_COLOR, 1.0F),
-                pos.getX() + random.nextDouble(),
-                pos.getY() + 0.2 + random.nextDouble() * 0.6,
-                pos.getZ() + random.nextDouble(),
+                new DustParticleOptions(PRESENCE_PARTICLE_COLOR, 1.0F),
+                pos.getX() + 0.2 + random.nextDouble() * 0.6,
+                pos.getY() + height,
+                pos.getZ() + 0.2 + random.nextDouble() * 0.6,
                 0.0,
                 0.0,
                 0.0
