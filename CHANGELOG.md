@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/pynickle/Echo-Seed/compare/v1.0.0...v2.0.0) (2026-10-25)
+
+### ⚠ BREAKING CHANGES
+
+* port to 26.2
+
+### ✨ Features
+
+* port to 26.2 ([f9a6300](https://github.com/pynickle/Echo-Seed/commit/f9a6300ac2831adb1e8eea706fd796437487a186))
+
 ## 1.0.0 (2026-08-25)
 
 ### ✨ Features
