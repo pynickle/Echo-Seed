@@ -83,7 +83,7 @@ public final class EchoMarkClient {
                 .ifPresentOrElse(seconds -> {
                     Component time = Component.literal(Long.toString(seconds))
                             .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
-                    minecraft.gui.setOverlayMessage(Component.translatable(MARK_DURATION_DISPLAY_KEY, time), false);
+                    minecraft.gui.hud.setOverlayMessage(Component.translatable(MARK_DURATION_DISPLAY_KEY, time), false);
                     showingDuration = true;
                 }, () -> clearDuration(minecraft));
     }
@@ -92,7 +92,7 @@ public final class EchoMarkClient {
         if (!showingDuration) {
             return;
         }
-        minecraft.gui.setOverlayMessage(Component.empty(), false);
+        minecraft.gui.hud.setOverlayMessage(Component.empty(), false);
         showingDuration = false;
     }
 
